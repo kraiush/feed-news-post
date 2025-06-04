@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/post_V001_initial.sql
+  - include:
+      file: db/changelog/changeset/post_V002_ad.sql
+  - include:
+      file: db/changelog/changeset/post_V003_resource.sql
+  - include:
+      file: db/changelog/changeset/post_V004_data_init.sql
+  - include:
+      file: db/changelog/changeset/event_V001_initial.sql
+

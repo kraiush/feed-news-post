@@ -1,0 +1,125 @@
+server:
+  host: localhost
+  port: 8081
+user-service:
+  host: localhost
+  port: 8080
+project-service:
+  host: localhost
+  port: 8082
+analytics-server:
+  host: localhost
+  port: 8086
+payment-service:
+  host: localhost
+  port: 9080
+
+spring:
+  application:
+    name: feed-news-service
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: user
+    password: password
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      format_sql: true
+      default_schema: public
+  data:
+    kafka:
+      bootstrap-servers: localhost:9092
+      topic:
+        outbox:
+          name: outbox-topic
+          partitions: 4
+          replicas: 1
+      scheduled: 15000
+      consumer:
+        backoff:
+          interval: 2000
+          max_failure: 5
+        group-id: outbox-group-id
+    redis:
+      port: 6379
+      host: localhost
+      connectionPoolSize: 10
+      connectionMinimumIdleSize: 5
+      retryAttempts: 3
+      retryInterval: 1500
+      timeout: 3000
+      postsBatchSize: 10 # 20
+      postsBoxSize: 100 # 500
+      commentsBoxSize: 5 # 20
+      prefix:
+        newsWireKey: "news-wire-%d"
+        postKey: "postId-%d"
+        userKey: "userId-%d"
+        lockComments: "lock-comments-%d"
+        lockPostLikes: "lock-post-likes-%d"
+        lockCommentLikes: "lock-comment-likes-%d"
+        lockViews: "lock-views-%d"
+      channels:
+        comment: comment_channel
+    hashtag-cache:
+      size: 10
+    s3:
+      endpoint: http://127.0.0.1:9000
+      access-key: s3admin
+      secret-key: s3password
+      bucket: storage
+      targetWidth: 1080
+      targetHeight: 566
+      maxFilesAmount: 10
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+scheduler:
+  moderator:
+    comment:
+      cron: "0 0 12 * * ?" # every day 12:00
+      sublist-size: 2000
+    post:
+      cron: "0 0 0 * * ?" # every day at 00:00:00
+      sublist-size: 500
+    post-corrector:
+      cron: "0 0 3 * * *" # every day at 03:00
+
+post-corrector:
+  url: "https://bing-spell-check2.p.rapidapi.com/spellcheck"
+  mode: "spell"
+  contentType: "application/x-www-form-urlencoded"
+  xRapidApiKey: "871e222f4dmsha404f4603a4687ep188b05jsn4942910dec51"
+  xRapidApiHost: "bing-spell-check2.p.rapidapi.com"
+  rateLimitPerSecond: 3
+
+thread.pool:
+  core-pool-size: 10
+  maximum-pool-size: 20
+  keep-alive-time: 60
+  queue=capacity: 100000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tryItOutEnabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    filter: false
+  show-actuator: true
+  packages-to-scan: com.faang.postservice.controller
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO

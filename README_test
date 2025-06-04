@@ -1,0 +1,79 @@
+docker-compose up
+start app
+
+  <============ What's News =============>
+http://localhost:8081/api/v1/feednews           <== Postman : GET ==>  + {header: x-user-id } :
+
+  <============ Get All FeedNews From Scratch =============>
+http://localhost:8081/api/v1/heater             <== Postman : GET ==>  + {header: x-user-id }
+
+  <============ PUBLISH <Post> =============>
+http://localhost:8081/api/v1/posts/{postId}/publish  <== Postman : PUT ==>  + {header: x-user-id }
+
+  <============ CREATE <Post> =============>
+http://localhost:8081/api/v1/posts              <== Postman : POST ==>  + {header: x-user-id }
+{
+    "content": "Post content must not be blank",
+    "hashtagNames": ["#Amazonka_07", "#Bum_Ba_Rash"]
+}
+  <============ UPDATE <Post> =============>
+http://localhost:8081/api/v1/posts              <== Postman : PUT ==>   + {header: x-user-id }
+{
+    "id": 9,
+    "content": "New Post content",
+    "hashtagNames": ["#Carrramba79", "#_AliBaBa_99"]
+}
+  <============ VIEW <Post> =============>
+http://localhost:8081/api/v1/posts/{postId}     <== Postman : GET ==>    + {header: x-user-id }
+
+  <============ CREATE <Comment> =============>
+http://localhost:8081/api/v1/comments           <== Postman : POST ==>  + {header: x-user-id }
+{
+     "postId": 9,
+     "content": "Comment content must not be blank"
+}
+  <============ UPDATE <Comment> =============>
+http://localhost:8081/api/v1/comments           <== Postman : PUT ==>  + {header: x-user-id }
+{
+     "id": 5,
+     "content": "Update Comment content"
+}
+  <============ ADD LIKE to <Post> =============>
+http://localhost:8081/api/v1/likes/post         <== Postman : POST ==> + {header: x-user-id }
+{
+   "postId": 9
+}
+  <============ ADD LIKE to <Comment> =============>
+http://localhost:8081/api/v1/likes/comment      <== Postman : POST ==>  + {header: x-user-id }
+{
+   "commentId": 4
+}
+  <============ GET LIKEs =============>
+## Test get likes to <Post>
+http://localhost:8081/api/v1/likes/post/{postId}            <== Postman : GET ==>  + {header: x-user-id }
+## Test get likes to <Comment>
+http://localhost:8081/api/v1/likes/comment/{commentId}      <== Postman : GET ==>  + {header: x-user-id }
+
+  <============ DELETE LIKEs =============>
+## Test delete likes from <Post>
+http://localhost:8081/api/v1/likes/post/{postId}/{userId}         <== Postman : DELETE ==>  + {header: x-user-id }
+## Test delete likes from <Comment>
+http://localhost:8081/api/v1/likes/comment/{commentId}/{userId}   <== Postman : DELETE ==>  + {header: x-user-id }
+
+  <============ GET <Posts> By Hashtag name =============>
+http://localhost:8081/api/v1/posts/hashtag                  <== Postman : GET ==>  + {header: x-user-id }
+{
+    "name": "#adventures_2021"
+}
+  <============ GET all drafts posts By User =============>
+http://localhost:8081/api/v1/posts/drafts/user/{userId}     <== Postman : GET ==>  + {header: x-user-id }
+
+  <============ GET all published Posts By User =============>
+http://localhost:8081/api/v1/posts/published/user/{userId}  <== Postman : GET ==>  + {header: x-user-id }
+
+  <============ Create a resource =============>
+http://localhost:8081/resources/{postId}     <== Postman : POST ==>
+
+
+
+
